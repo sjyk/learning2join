@@ -3,29 +3,49 @@ Test script
 """
 
 from core.relation import Relation
-from core.opt import NWayJoin
+from core.opt import NWayJoinLearn, NWayJoin
 
-data1 = [{"a": 'q', "b": "ny"},
-        {"a": 'a', "b": "nyc"},
-        {"a": 'f', "b": "chi"},
-        {"a": 'g', "b": "mon"}]
+people = [{"id": 1, "name": "John"},
+        {"id": 2, "name": "James"},
+        {"id": 3, "name": "Sally"},
+        {"id": 4, "name": "Fred"}]
 
-data2 = [{"a": 'q', "c": "fyg"}]*1000
+following = [{"follower_id": 1, "id": 1}, 
+             {"follower_id": 2, "id": 1},
+             {"follower_id": 3, "id": 1}]
 
-data3 = [{"c": 'fyg', "b": "ny"}]*5
+idmap = [{"follower_id": 1, "name": "John"}, 
+         {"follower_id": 2, "name": "James"},
+         {"follower_id": 3, "name": "Sally"}]*1000
 
 
-r = Relation("a","b")
-r.putAll(data1)
+r = Relation("id","name")
+r.putAll(people)
 
-s = Relation("a","c")
-s.putAll(data2)
+s = Relation("follower_id","id")
+s.putAll(following)
 
-t = Relation("c","b")
-t.putAll(data3)
+t = Relation("folower_id","name")
+t.putAll(idmap)
 
-n = NWayJoin([r,s,t])
+import datetime
+
+now = datetime.datetime.now()
+
+n = NWayJoinLearn([r,s, t], True)
 for i in n.eval():
-    print(i)
+    i##print(i)
+
+print((datetime.datetime.now()-now).total_seconds())
+
+now = datetime.datetime.now()
+
+n = NWayJoinLearn([r,s,t], True)
+for i in n.eval():
+    i##print(i)
+
+print((datetime.datetime.now()-now).total_seconds())
+
+
 
 

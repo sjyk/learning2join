@@ -42,7 +42,9 @@ class Relation(object):
         self.data[i][attr].add(value)
 
     #gets an iterator interface over tuples (ref to the base rel, tid, and tuple)
-    def get(self):
+    def get(self, pred):
         for tid , tup in enumerate(self.data):
-            yield ([self], [tid], tup)
+
+            if pred(tup):
+                yield ([self], [tid], tup)
 
