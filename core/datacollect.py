@@ -8,7 +8,6 @@ def symjoin(input1, input2, attrs):
 
     build = _build_hash_table(input1, attrs)
 
-
     for src, ids, tup in input2:
         key = tuple([tup[t] for t in tup if t in attrs])
 
@@ -20,13 +19,13 @@ def symjoin(input1, input2, attrs):
                 yield _join_update_tuple(src, ids, tup, val)
 
         else:
-            _updateIdx(src,ids)
+            _updateIdx(src,ids, key, attrs)
 
 
     for b in build:
         if b not in usedKeys:
             for src, ids, _ in build[b]:
-                _updateIdx(src,ids)
+                _updateIdx(src,ids, b, attrs)
 
 
 def asymjoin(input1, input2, attrs):
@@ -50,10 +49,14 @@ def asymjoin(input1, input2, attrs):
                 yield _join_update_tuple(src, ids, tup, val)
 
         else:
-            _updateIdx(src, ids)
+            _updateIdx(src, ids, key, attrs)
 
 
 
-def _updateIdx(src, ids):
+def _updateIdx(src, ids, key, attrs):
+
     for i in range(len(src)):
-        src[i].updateAppend(ids[i], "idx", tuple(sorted([s.name for s in src])) )
+
+        if src[i].geti(ids[i], attrs) == key:
+            #print(attrs, src[i].geti(ids[i], attrs))
+            src[i].updateAppend(ids[i], "idx", tuple(sorted([s.name for s in src])) )

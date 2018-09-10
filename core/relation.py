@@ -42,9 +42,14 @@ class Relation(object):
         self.data[i][attr].add(value)
 
     #gets an iterator interface over tuples (ref to the base rel, tid, and tuple)
-    def get(self, pred):
+    def get(self, pred=lambda t: True):
         for tid , tup in enumerate(self.data):
 
             if pred(tup):
                 yield ([self], [tid], tup)
+
+    #
+    def geti(self, i, attrs):
+        #print([t for t in self.data[i] if t in attrs], attrs)
+        return tuple([self.data[i][t] for t in self.data[i] if t in attrs])
 

@@ -56,6 +56,7 @@ class NWayJoinLearn(object):
         self.inference = inference
 
     def prefilter(self, tup):
+
         if 'idx' not in tup:
             return True
 
@@ -64,7 +65,6 @@ class NWayJoinLearn(object):
             s = len(set(t).intersection(self.relnames))
 
             if s == len(t):
-                #print(tup)
                 return False
 
         return True

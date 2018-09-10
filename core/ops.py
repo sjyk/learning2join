@@ -30,8 +30,8 @@ def _build_hash_table(input, attrs):
 
 
 def _join_update_tuple(src, ids, tup, val):
-    ns = src + [val[0]]
-    nid = ids + [val[1]]
+    ns = src + val[0]
+    nid = ids + val[1]
     ntup = tup.copy()
     ntup.update(val[2])
 
@@ -51,4 +51,7 @@ def join(input1, input2, attrs):
             for val in build[key]:
 
                 yield _join_update_tuple(src, ids, tup, val)
+        #else:
+
+            #print("Miss", key)
 

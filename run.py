@@ -4,7 +4,60 @@ Test script
 
 from core.relation import Relation
 from core.opt import NWayJoinLearn, NWayJoin
+import datetime
 
+f = open('data/ca-AstroPh.txt','r')
+
+r = Relation("a","b")
+rd = []
+
+s = Relation("b","c")
+sd = []
+
+t = Relation("c","d")
+td = []
+
+for line in f.readlines()[0:10000]:
+    l1, l2 = tuple(line.split())
+    rd.append({'a': l1, 'b':l2})
+    sd.append({'b': l1, 'c':l2})
+    td.append({'c': l1, 'd':l2})
+
+r.putAll(rd)
+s.putAll(sd)
+t.putAll(td)
+
+n = NWayJoinLearn([r,s, t])
+
+now = datetime.datetime.now()
+
+print(len([i for i in n.eval()]))
+
+print((datetime.datetime.now()-now).total_seconds())
+
+
+
+now = datetime.datetime.now()
+
+n = NWayJoin([r,s, t])
+
+print(len([i for i in n.eval()]))
+
+print((datetime.datetime.now()-now).total_seconds())
+
+
+
+"""
+now = datetime.datetime.now()
+
+n = NWayJoin([r,s, t])
+
+print(len([i for i in n.eval()]))
+
+print((datetime.datetime.now()-now).total_seconds())
+"""
+
+"""
 people = [{"id": 1, "name": "John"},
         {"id": 2, "name": "James"},
         {"id": 3, "name": "Sally"},
@@ -45,7 +98,7 @@ for i in n.eval():
     i##print(i)
 
 print((datetime.datetime.now()-now).total_seconds())
-
+"""
 
 
 
